@@ -12,11 +12,17 @@ It runs sample Playwright tests and generates **two** HTML reports in one run:
 ## Prerequisites
 
 - Node.js 20+
-- Built local package at `../../cursor-publishes/playwright-runner-light-reporter` (private source), **or** install from npm once published:
+- Install the published package (after `npm publish` from the private `playwright-runner-light-reporter` source tree):
 
 ```bash
-npm install --save-dev playwright-light-reporter
+npm install --save-dev playwright-light-reporter @playwright/test
 ```
+
+For local development before publish, use `npm install --save-dev file:../../cursor-publishes/playwright-runner-light-reporter` in this folder.
+
+## Push to GitHub
+
+This demo targets [LahiruMadhawa2020/playwright-light-reporter](https://github.com/LahiruMadhawa2020/playwright-light-reporter). Sign in with that account (`gh auth login`) before `git push -u origin main`.
 
 ## Run tests
 

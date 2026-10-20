@@ -13,6 +13,6 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
-    "playwright-light-reporter": "file:../../cursor-publishes/playwright-runner-light-reporter"
+    "playwright-light-reporter": "^1.0.0"
   }
 }
