@@ -42,6 +42,8 @@ npm test
 
 Open `reports/standard/index.html` and `reports/bdd/index.html` after the run.
 
+Reports use a [multiple-cucumber-html-reporter](https://github.com/WasiqB/multiple-cucumber-html-reporter)-inspired layout: teal header bar, Features/Scenarios/Steps overview panels, and doughnut charts for scenario and step results.
+
 ## Configure in your project
 
 ```typescript
