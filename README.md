@@ -9,6 +9,15 @@ It runs sample Playwright tests and generates **two** HTML reports in one run:
 | `reports/standard` | `playwright-light-reporter/standard` | Drill-down UI with nested steps |
 | `reports/bdd` | `playwright-light-reporter/bdd` | Feature → scenario → steps, `REQ_` / `TEST_` tiles |
 
+## Live demos
+
+Sample reports (pass + fail) are published to GitHub Pages on each push to `master`:
+
+- [Standard report](https://lahirumadhawa2020.github.io/playwright-light-reporter/standard/index.html)
+- [BDD report](https://lahirumadhawa2020.github.io/playwright-light-reporter/bdd/index.html)
+
+Enable **Settings → Pages → Build and deployment → GitHub Actions** on the repo if the links are not live yet.
+
 ## Prerequisites
 
 - Node.js 20+
@@ -22,7 +31,7 @@ For local development before publish, use `npm install --save-dev file:../../cur
 
 ## Push to GitHub
 
-This demo targets [LahiruMadhawa2020/playwright-light-reporter](https://github.com/LahiruMadhawa2020/playwright-light-reporter). Sign in with that account (`gh auth login`) before `git push -u origin main`.
+This demo targets [LahiruMadhawa2020/playwright-light-reporter](https://github.com/LahiruMadhawa2020/playwright-light-reporter). Sign in with that account (`gh auth login`) before `git push -u origin master`. If the remote still uses `main`, set **default branch** to `master` in GitHub repo settings after the first push.
 
 ## Run tests
 
