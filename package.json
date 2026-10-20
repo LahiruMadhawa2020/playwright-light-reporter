@@ -1,0 +1,18 @@
+{
+  "name": "playwright-light-reporter-demo",
+  "private": true,
+  "description": "Demo Playwright project using playwright-light-reporter standard and BDD reports",
+  "scripts": {
+    "test": "playwright test",
+    "test:standard": "playwright test --reporter=playwright-light-reporter/standard",
+    "test:bdd": "playwright test --reporter=playwright-light-reporter/bdd"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LahiruMadhawa2020/playwright-light-reporter.git"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "playwright-light-reporter": "file:../../cursor-publishes/playwright-runner-light-reporter"
+  }
+}
