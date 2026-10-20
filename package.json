@@ -13,6 +13,6 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
-    "playwright-light-reporter": "^1.0.0"
+    "playwright-light-reporter": "github:publisheswithlahiru91/playwright-runner-light-reporter"
   }
 }

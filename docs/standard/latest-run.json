@@ -1,0 +1,19 @@
+{
+  "runId": "20261020_160004",
+  "status": "failed",
+  "passed": 1,
+  "failed": 1,
+  "skipped": 0,
+  "total": 2,
+  "passRate": 50,
+  "durationMs": 3026,
+  "environment": "demo",
+  "reportTitle": "Playwright Light Reporter — Standard",
+  "startedAt": "2026-10-20T10:30:04.051Z",
+  "finishedAt": "2026-10-20T10:30:07.077Z",
+  "reportHtml": "reports\\standard\\index.html",
+  "latestHtml": "reports\\standard\\latest.html",
+  "emailSummaryText": "reports\\standard\\email-summary.txt",
+  "emailSummaryHtml": "reports\\standard\\email-summary.html",
+  "historyHtml": "reports\\standard\\history.html"
+}

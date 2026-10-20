@@ -1,4 +1,4 @@
-name: Deploy report demos
+name: Refresh report demos
 
 on:
   push:
@@ -6,19 +6,10 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
+  contents: write
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  refresh-docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,17 +20,24 @@ jobs:
           cache: npm
 
       - run: npm ci
+      - run: npm run build --prefix node_modules/playwright-light-reporter
       - run: npx playwright install --with-deps chromium
 
-      # Demo suite includes an intentional failure to show error UI in the reports.
       - run: npx playwright test
         continue-on-error: true
 
-      - uses: actions/configure-pages@v5
+      - name: Sync reports into docs/
+        run: |
+          rm -rf docs/standard docs/bdd
+          cp -r reports/standard docs/standard
+          cp -r reports/bdd docs/bdd
+          test -f docs/standard/index.html
+          test -f docs/bdd/index.html
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Commit updated demos
+        uses: EndBug/add-and-commit@v9
         with:
-          path: reports
-
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          add: docs
+          message: 'chore: refresh GitHub Pages report demos [skip ci]'
+          default_author: github_actions[bot]
+          default_email: 41898282+github-actions[bot]@users.noreply.github.com

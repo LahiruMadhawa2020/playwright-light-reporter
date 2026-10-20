@@ -11,23 +11,22 @@ It runs sample Playwright tests and generates **two** HTML reports in one run:
 
 ## Live demos
 
-Sample reports (pass + fail) are published to GitHub Pages on each push to `master`:
+Sample reports (pass + fail) are hosted on GitHub Pages from the [`docs/`](docs/) folder on `master`:
 
 - [Standard report](https://lahirumadhawa2020.github.io/playwright-light-reporter/standard/index.html)
 - [BDD report](https://lahirumadhawa2020.github.io/playwright-light-reporter/bdd/index.html)
-
-Enable **Settings → Pages → Build and deployment → GitHub Actions** on the repo if the links are not live yet.
+- [Demo index](https://lahirumadhawa2020.github.io/playwright-light-reporter/)
 
 ## Prerequisites
 
 - Node.js 20+
-- Install the published package (after `npm publish` from the private `playwright-runner-light-reporter` source tree):
+Install the reporter from GitHub (or use a local path while developing the package):
 
 ```bash
-npm install --save-dev playwright-light-reporter @playwright/test
+npm install --save-dev github:publisheswithlahiru91/playwright-runner-light-reporter @playwright/test
 ```
 
-For local development before publish, use `npm install --save-dev file:../../cursor-publishes/playwright-runner-light-reporter` in this folder.
+For local development on the reporter source tree, use `npm install --save-dev file:../../cursor-publishes/playwright-runner-light-reporter` in this folder.
 
 ## Push to GitHub
 

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playwright Light Reporter — BDD — BDD</title>
+    <style>
+        
+        :root, [data-theme="light"] {
+            --bg: #eef4f1;
+            --panel: #ffffff;
+            --panel-muted: #f8fafc;
+            --border: #dbe3ef;
+            --text: #1e293b;
+            --muted: #64748b;
+            --primary: #059669;
+            --primary-light: #10b981;
+            --primary-bg: #ecfdf5;
+            --danger: #dc2626;
+            --passed: #16a34a;
+            --failed: #dc2626;
+            --skipped: #64748b;
+            --shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+            --hero-gradient: linear-gradient(135deg, #059669 0%, #0d9488 50%, #047857 100%);
+            --page-gradient: linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
+            --code-bg: #0f172a;
+            --code-text: #cbd5e1;
+            --error-bg: #fee2e2;
+            --error-text: #991b1b;
+            --failed-row-bg: #fef2f2;
+        }
+        [data-theme="dark"] {
+            --bg: #0b1220;
+            --panel: #1e293b;
+            --panel-muted: #111827;
+            --border: #334155;
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --primary: #34d399;
+            --primary-light: #6ee7b7;
+            --primary-bg: #064e3b;
+            --danger: #f87171;
+            --passed: #4ade80;
+            --failed: #f87171;
+            --skipped: #94a3b8;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+            --hero-gradient: linear-gradient(135deg, #047857 0%, #0f766e 50%, #065f46 100%);
+            --page-gradient: linear-gradient(180deg, #0f172a 0%, #0b1220 100%);
+            --code-bg: #020617;
+            --code-text: #cbd5e1;
+            --error-bg: #450a0a;
+            --error-text: #fecaca;
+            --failed-row-bg: #3f1d1d;
+        }
+    
+        
+        body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, sans-serif; background: var(--color-canvas-subtle); color: var(--color-fg-default); }
+        .bdd-header { padding: 1.5rem 2rem; background: var(--color-canvas-default); border-bottom: 1px solid var(--color-border-default); }
+        .bdd-header h1 { margin: 0 0 0.25rem; font-size: 1.5rem; }
+        .bdd-subtitle { margin: 0; color: var(--color-fg-muted); }
+        .bdd-meta { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; font-size: 0.875rem; color: var(--color-fg-muted); }
+        .bdd-dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.75rem; padding: 1rem 2rem; }
+        .bdd-stat { background: var(--color-canvas-default); border: 1px solid var(--color-border-default); border-radius: 8px; padding: 0.75rem; text-align: center; }
+        .bdd-stat strong { display: block; font-size: 1.25rem; }
+        .bdd-tiles { padding: 0 2rem 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .bdd-tiles h3 { width: 100%; margin: 0.5rem 0; font-size: 0.9rem; color: var(--color-fg-muted); }
+        .bdd-tile { display: inline-flex; flex-direction: column; min-width: 110px; padding: 0.5rem 0.75rem; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--color-border-default); background: var(--color-canvas-default); }
+        .bdd-tile.req { border-left: 4px solid #2563eb; }
+        .bdd-tile.test { border-left: 4px solid #7c3aed; }
+        .bdd-tile-label { font-size: 0.75rem; color: var(--color-fg-muted); }
+        .bdd-tile-value { font-size: 1.1rem; font-weight: 600; }
+        .bdd-toolbar { padding: 0 2rem 1rem; display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+        .bdd-toolbar input { flex: 1; min-width: 200px; padding: 0.5rem 0.75rem; border-radius: 6px; border: 1px solid var(--color-border-default); }
+        .bdd-main { padding: 0 2rem 2rem; }
+        .bdd-feature { margin-bottom: 0.75rem; border: 1px solid var(--color-border-default); border-radius: 8px; overflow: hidden; background: var(--color-canvas-default); }
+        .bdd-feature-toggle { width: 100%; display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem; border: 0; background: transparent; cursor: pointer; text-align: left; color: inherit; font: inherit; }
+        .bdd-feature-toggle h2 { margin: 0; flex: 1; font-size: 1rem; }
+        .bdd-feature-count { font-size: 0.8rem; color: var(--color-fg-muted); }
+        .bdd-feature-body { display: none; padding: 0 1rem 1rem; border-top: 1px solid var(--color-border-default); }
+        .bdd-feature.open .bdd-feature-body { display: block; }
+        .bdd-feature.open .bdd-feature-chevron { transform: rotate(90deg); }
+        .bdd-scenario { margin-top: 0.75rem; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--color-border-default); }
+        .bdd-scenario.failed { border-left: 4px solid #dc2626; }
+        .bdd-scenario.passed { border-left: 4px solid #16a34a; }
+        .bdd-scenario.skipped { border-left: 4px solid #ca8a04; }
+        .bdd-scenario-header { display: flex; align-items: center; gap: 0.5rem; }
+        .bdd-scenario-title { margin: 0; flex: 1; font-size: 0.95rem; }
+        .bdd-scenario-meta { margin: 0.5rem 0; font-size: 0.8rem; }
+        .bdd-tag { display: inline-block; margin-right: 0.25rem; padding: 0.1rem 0.35rem; border-radius: 4px; background: var(--color-canvas-subtle); }
+        .bdd-link { margin-right: 0.5rem; color: #2563eb; text-decoration: none; }
+        .bdd-steps { margin: 0.5rem 0 0; padding-left: 1.25rem; }
+        .bdd-step { margin: 0.25rem 0; }
+        .bdd-step.failed { color: #dc2626; }
+        .bdd-error { background: #fef2f2; color: #991b1b; padding: 0.5rem; border-radius: 4px; font-size: 0.8rem; overflow-x: auto; }
+        .bdd-hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <header class="bdd-header">
+        <h1>Playwright Light Reporter — BDD</h1>
+        <p class="bdd-subtitle">Feature / scenario / step view — BDD view</p>
+        <div class="bdd-meta">
+            <span>Environment: <strong>demo</strong></span>
+            <span>Author: <strong>QA</strong></span>
+            <span>Run: Oct 20, 2026, 15:49:32 → Oct 20, 2026, 15:49:36</span>
+            <span>Pass rate: <strong>50.0%</strong></span>
+        </div>
+    </header>
+    <div class="bdd-dashboard">
+        <div class="bdd-stat"><strong>2</strong>Total</div>
+        <div class="bdd-stat"><strong>1</strong>Passed</div>
+        <div class="bdd-stat"><strong>1</strong>Failed</div>
+        <div class="bdd-stat"><strong>0</strong>Skipped</div>
+    </div>
+    <div class="bdd-tiles"><h3>Requirements (Jira)</h3><a class="bdd-tile req" href="https://example.atlassian.net/browse/DEMO-1" target="_blank" rel="noopener" data-filter="req_demo-1" onclick="filterByTile(event, 'req_demo-1')"><span class="bdd-tile-label">REQ_DEMO-1</span><span class="bdd-tile-value">1</span></a><a class="bdd-tile req" href="https://example.atlassian.net/browse/DEMO-2" target="_blank" rel="noopener" data-filter="req_demo-2" onclick="filterByTile(event, 'req_demo-2')"><span class="bdd-tile-label">REQ_DEMO-2</span><span class="bdd-tile-value">1</span></a></div>
+    <div class="bdd-tiles"><h3>Test cases (Xray / TMS)</h3><a class="bdd-tile test" href="https://example.xray.com/browse/XRAY-1001" target="_blank" rel="noopener" data-filter="test_xray-1001" onclick="filterByTile(event, 'test_xray-1001')"><span class="bdd-tile-label">TEST_XRAY-1001</span><span class="bdd-tile-value">1</span></a><a class="bdd-tile test" href="https://example.xray.com/browse/XRAY-1002" target="_blank" rel="noopener" data-filter="test_xray-1002" onclick="filterByTile(event, 'test_xray-1002')"><span class="bdd-tile-label">TEST_XRAY-1002</span><span class="bdd-tile-value">1</span></a></div>
+    <div class="bdd-toolbar">
+        <label for="bdd-filter">Filter by tag, feature, REQ_, or TEST_</label>
+        <input id="bdd-filter" type="search" placeholder="e.g. @smoke REQ_PROJ-1 TEST_TC-42" oninput="applyBddFilter(this.value)" />
+        <button type="button" onclick="applyBddFilter('')">Clear</button>
+    </div>
+    <main class="bdd-main" id="bdd-main">
+        
+            <section class="bdd-feature" data-feature="user-journey">
+                <button type="button" class="bdd-feature-toggle" onclick="toggleFeature(this)">
+                    <span class="bdd-feature-chevron">▶</span>
+                    <h2>user-journey</h2>
+                    <span class="bdd-feature-count">2 scenario(s)</span>
+                </button>
+                <div class="bdd-feature-body">
+                    <article class="bdd-scenario passed" data-search="user-journey req_demo-1 test_xray-1001 user sees home page @functional user-journey.spec.ts › user journey @smoke › req_demo-1 test_xray-1001 user sees home page @functional @smoke @functional req_demo-1 test_xray-1001">
+                        <header class="bdd-scenario-header">
+                            <span class="bdd-scenario-status passed">✓</span>
+                            <h3 class="bdd-scenario-title">REQ_DEMO-1 TEST_XRAY-1001 user sees home page @functional</h3>
+                            <span class="bdd-scenario-duration">0s</span>
+                        </header>
+                        <div class="bdd-scenario-meta">
+                            <a class="bdd-link" href="https://example.atlassian.net/browse/DEMO-1" target="_blank" rel="noopener">REQ_DEMO-1</a> <a class="bdd-link" href="https://example.xray.com/browse/XRAY-1001" target="_blank" rel="noopener">TEST_XRAY-1001</a>
+                            <span class="bdd-tag">@smoke</span> <span class="bdd-tag">@functional</span>
+                        </div>
+                        <ol class="bdd-steps"><li class="bdd-step passed"><span class="bdd-step-status">✓</span>Go to example.com</li><li class="bdd-step passed"><span class="bdd-step-status">✓</span>Check heading</li></ol>
+                        
+                    </article>
+                    <article class="bdd-scenario failed" data-search="user-journey req_demo-2 test_xray-1002 failure sample @regression user-journey.spec.ts › user journey @smoke › req_demo-2 test_xray-1002 failure sample @regression @smoke @regression req_demo-2 test_xray-1002">
+                        <header class="bdd-scenario-header">
+                            <span class="bdd-scenario-status failed">✗</span>
+                            <h3 class="bdd-scenario-title">REQ_DEMO-2 TEST_XRAY-1002 failure sample @regression</h3>
+                            <span class="bdd-scenario-duration">2s</span>
+                        </header>
+                        <div class="bdd-scenario-meta">
+                            <a class="bdd-link" href="https://example.atlassian.net/browse/DEMO-2" target="_blank" rel="noopener">REQ_DEMO-2</a> <a class="bdd-link" href="https://example.xray.com/browse/XRAY-1002" target="_blank" rel="noopener">TEST_XRAY-1002</a>
+                            <span class="bdd-tag">@smoke</span> <span class="bdd-tag">@regression</span>
+                        </div>
+                        <ol class="bdd-steps"><li class="bdd-step passed"><span class="bdd-step-status">✓</span>Open page</li><li class="bdd-step failed"><span class="bdd-step-status">✗</span>Failing expectation</li></ol>
+                        <pre class="bdd-error">Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+Locator: getByText(&#039;This text does not exist&#039;)
+Expected: visible
+Timeout: 1500ms
+Error: element(s) not found
+
+Call log:
+[2m  - Expect &quot;toBeVisible&quot; getByText(&#039;This text does not exist&#039;) with timeout 1500ms[22m
+[2m  - waiting for getByText(&#039;This text does not exist&#039;)[22m
+</pre>
+                    </article></div>
+            </section>
+    </main>
+    <script>
+        function toggleFeature(btn) {
+            btn.closest('.bdd-feature').classList.toggle('open');
+        }
+        document.querySelectorAll('.bdd-feature').forEach((el, i) => { if (i < 3) el.classList.add('open'); });
+        function applyBddFilter(query) {
+            const q = (query || '').trim().toLowerCase();
+            document.querySelectorAll('.bdd-scenario').forEach((el) => {
+                const text = el.getAttribute('data-search') || '';
+                el.classList.toggle('bdd-hidden', q && !text.includes(q));
+            });
+            document.querySelectorAll('.bdd-feature').forEach((feature) => {
+                const visible = feature.querySelectorAll('.bdd-scenario:not(.bdd-hidden)').length;
+                feature.classList.toggle('bdd-hidden', q && visible === 0);
+            });
+        }
+        function filterByTile(event, token) {
+            event.preventDefault();
+            const input = document.getElementById('bdd-filter');
+            input.value = token;
+            applyBddFilter(token);
+        }
+    </script>
+</body>
+</html>

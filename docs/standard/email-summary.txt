@@ -1,0 +1,20 @@
+Playwright Light Reporter — Standard
+Public demo (GitHub)
+
+Status: FAILED
+Run ID: 20261020_160004
+Environment: DEMO
+Passed: 1
+Failed: 1
+Skipped: 0
+Total: 2
+Pass Rate: 50.0%
+Duration: 3s
+Started: 2026-10-20T10:30:04.051Z
+
+Open report: reports\standard\index.html
+Latest copy: reports\standard\latest.html
+
+Failed tests:
+- user-journey.spec.ts › User journey @smoke › REQ_DEMO-2 TEST_XRAY-1002 failure sample @regression
+  Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed

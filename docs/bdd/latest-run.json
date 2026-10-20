@@ -1,0 +1,19 @@
+{
+  "runId": "20261020_160004",
+  "status": "failed",
+  "passed": 1,
+  "failed": 1,
+  "skipped": 0,
+  "total": 2,
+  "passRate": 50,
+  "durationMs": 3047,
+  "environment": "demo",
+  "reportTitle": "Playwright Light Reporter — BDD",
+  "startedAt": "2026-10-20T10:30:04.061Z",
+  "finishedAt": "2026-10-20T10:30:07.108Z",
+  "reportHtml": "reports\\bdd\\index.html",
+  "latestHtml": "reports\\bdd\\latest.html",
+  "emailSummaryText": "reports\\bdd\\email-summary.txt",
+  "emailSummaryHtml": "reports\\bdd\\email-summary.html",
+  "historyHtml": "reports\\bdd\\history.html"
+}
